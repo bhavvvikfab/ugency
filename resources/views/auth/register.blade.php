@@ -9,6 +9,8 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
   @include('layout.headlinks')
+  <!-- Add CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -52,6 +54,15 @@
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                         <input type="email" name="email" class="form-control" id="yourEmail" required>
                         <div class="invalid-feedback">Enter a valid Email address!</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="phone" class="form-label">Phone</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-telephone-fill"></i></span>
+                        <input type="number" name="phone" class="form-control" id="phone" min="0" required>
+                        <div class="invalid-feedback">Enter a valid phone number!</div>
                       </div>
                     </div>
 
@@ -132,17 +143,19 @@
 
   <script>
     $(document).ready(function() {
-      $('#userForm').on('submit', function(e) {
+      $('#userForm').on('submit', async function(e) {
         e.preventDefault();
 
         $('.invalid-feedback').hide();
         $('.form-control').removeClass('is-invalid');
 
         let username = $.trim($('#yourUsername').val());
+        let phone = $.trim($('#phone').val());
         let email = $.trim($('#yourEmail').val());
         let password = $('#yourPassword').val();
 
         let hasError = false; // To track if there's any validation error
+
 
         if (username === '') {
           $('#yourUsername').addClass('is-invalid');
@@ -150,7 +163,6 @@
           hasError = true;
         }
 
-        // Validate email
         if (email === '') {
           $('#yourEmail').addClass('is-invalid');
           $('#yourEmail').siblings('.invalid-feedback').text('Enter a valid email address!').show();
@@ -164,7 +176,6 @@
           }
         }
 
-        // Validate password length
         if (password === '') {
           $('#yourPassword').addClass('is-invalid');
           $('#yourPassword').siblings('.invalid-feedback').text('Enter your password!').show();
@@ -175,15 +186,38 @@
           hasError = true;
         }
 
+        let phonePattern = /^\d+$/;
+        if (phone === '') {
+          $('#phone').addClass('is-invalid');
+          $('#phone').siblings('.invalid-feedback').text('Enter a valid phone number!').show();
+          hasError = true;
+        } else if (!phonePattern.test(phone)) {
+          $('#phone').addClass('is-invalid');
+          $('#phone').siblings('.invalid-feedback').text('Phone number should contain only digits.').show();
+          hasError = true;
+        } else if (phone.length < 10) {
+          $('#phone').addClass('is-invalid');
+          $('#phone').siblings('.invalid-feedback').text('Phone number must be at least 10 digits.').show();
+          hasError = true;
+        }
+
         if (hasError) return;
-        const formData= {
-            username: username,
-            email: email,
-            password: password,
-            _token: '{{ csrf_token() }}' // CSRF token for security
-          }
-        const res = ajaxRequest('user.store',formData)
-        console.log('res',res)
+
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('email', email);
+        formData.append('phone', phone);
+        formData.append('password', password);
+        formData.append('role', 'client admin');
+        try {
+          const response = await ajaxRequest('saveuser', formData)
+          if (response.status) {
+            $('#userForm')[0].reset();
+            window.location.href = 'dashboard'
+          } else console.log('Register', response.message);
+        } catch (error) {
+          console.log('Error creating user:', error);
+        }
       });
     });
   </script>

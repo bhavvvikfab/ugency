@@ -17,7 +17,7 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained('roles');// Foreign key to roles table
+            // $table->foreignId('role_id')->constrained('roles');// Foreign key to roles table
             $table->string('username')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->unique();

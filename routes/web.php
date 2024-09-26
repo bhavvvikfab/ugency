@@ -22,7 +22,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/',[AuthController::class,'loginView'])->name('loginView');
+
 Route::get('/register',[AuthController::class,'registerView'])->name('registerView');
+Route::post('/saveuser',[AuthController::class,'saveUser'])->name('saveuser');
+
 Route::get('/dashboard',[DashboardController::class,'dashboardView'])->name('dashboardView');
 
 Route::get('/userprofile',[UserController::class,'profileView'])->name('profileView');

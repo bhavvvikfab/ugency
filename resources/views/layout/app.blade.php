@@ -8,6 +8,7 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     @include('layout.headlinks')
+    _token: '{{ csrf_token() }}' // CSRF token for security
 </head>
 
 <body>
