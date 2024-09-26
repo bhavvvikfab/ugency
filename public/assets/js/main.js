@@ -317,3 +317,29 @@
   }
 
 })();
+
+function ajaxRequest(url, formData = null, method="POST", successCallback, errorCallback) {
+  $.ajax({
+      url: url,
+      method: method,
+      data: formData ? formData : {},
+      contentType: formData ? false : 'application/x-www-form-urlencoded; charset=UTF-8',
+      processData: formData ? false : true,
+      cache: false,
+      success: function(response) {
+          // if (successCallback)successCallback(response);
+          if(response.status){
+            toastr.success(response.message || 'Operation successful', 'Success');
+          }else{
+            toastr.error(response.message || 'An error occurred', 'Error');
+          }
+          return response
+      },
+      error: function(xhr, status, error) {
+          // if (errorCallback) errorCallback(xhr, status, error);
+          var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : error;
+          toastr.error(errorMessage || 'An error occurred', 'Error');
+          return false
+      }
+  });
+}
