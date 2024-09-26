@@ -27,3 +27,31 @@ Route::get('/dashboard',[DashboardController::class,'dashboardView'])->name('das
 
 Route::get('/userprofile',[UserController::class,'profileView'])->name('profileView');
 Route::get('/settings',[UserController::class,'settingView'])->name('settingView');
+
+
+
+
+// Public routes
+Route::post('login', [AuthController::class, 'login']);
+
+// Protected routes
+Route::middleware('auth:api')->group(function () {
+    Route::get('user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Routes restricted to client admin
+    Route::middleware('role:client admin')->group(function () {
+        // Client admin routes
+    });
+
+    // Routes restricted to client employee
+    Route::middleware('role:client employee')->group(function () {
+        // Client employee routes
+    });
+
+    // Routes restricted to creators
+    Route::middleware('role:creators')->group(function () {
+        // Creator routes
+    });
+});
