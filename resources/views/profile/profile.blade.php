@@ -104,8 +104,8 @@ Profile
 
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                                <!-- Profile Edit Form -->
-                                <form>
+                                <form id="editProfileForm" method="post">
+                                    <!-- Profile Image Section -->
                                     <div class="row mb-3">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                                         <div class="col-md-8 col-lg-9">
@@ -117,105 +117,99 @@ Profile
                                         </div>
                                     </div>
 
+                                    <!-- First Name -->
                                     <div class="row mb-3">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                                            <input name="firstName" type="text" class="form-control" id="firstName" value="Kevin">
+                                            <div class="invalid-feedback" id="firstNameErr">Enter your first name!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Last Name -->
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="lastName" type="text" class="form-control" id="lastName" value="Anderson">
+                                            <div class="invalid-feedback" id="lastNameErr">Enter your last name!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Country -->
+                                    <div class="row mb-3">
+                                        <label for="country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="country" type="text" class="form-control" id="country" value="USA">
+                                            <div class="invalid-feedback" id="countryErr">Enter your country!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- City -->
+                                    <div class="row mb-3">
+                                        <label for="city" class="col-md-4 col-lg-3 col-form-label">City</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="city" type="text" class="form-control" id="city" value="New York">
+                                            <div class="invalid-feedback" id="cityErr">Enter your city!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Phone -->
+                                    <div class="row mb-3">
+                                        <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="phone" type="text" class="form-control" id="phone" value="(436) 486-3538 x29071">
+                                            <div class="invalid-feedback" id="phoneErr">Enter your phone number!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="email" class="form-control" id="email" value="k.anderson@example.com">
+                                            <div class="invalid-feedback" id="emailErr">Enter a valid email address!</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Language -->
+                                    <div class="row mb-3">
+                                        <label for="language" class="col-md-4 col-lg-3 col-form-label">Language</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="language" type="text" class="form-control" id="language" value="English">
+                                            <div class="invalid-feedback" id="languageErr">Enter your language!</div>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                                        <label class="col-md-4 col-lg-3 col-form-label">Social Links</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                                            <div id="socialLinksContainer">
+                                                <div class="input-group mb-2">
+                                                    <input name="socialPlatform[]" type="text" class="form-control" placeholder="Platform Name" value="Twitter">
+                                                    <input name="socialLink[]" type="text" class="form-control" placeholder="https://twitter.com/username" value="https://twitter.com/#">
+                                                    <button class="btn btn-success" id="addSocialLinkBtn" type="button"><i class="bi bi-plus-lg"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="invalid-feedback" id="socialLinksErr">Enter at least one social link!</div>
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="country" type="text" class="form-control" id="Country" value="USA">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
-                                        </div>
-                                    </div>
 
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Save Changes</button>
                                     </div>
-                                </form><!-- End Profile Edit Form -->
-
+                                </form>
                             </div>
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->
-                                <form>
+                                <form id="changePasswordForm" method="post">
 
                                     <div class="row mb-3">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="password" type="password" class="form-control" id="currentPassword">
+                                            <div class="invalid-feedback" id="currPassErr">Enter your current password!</div>
                                         </div>
                                     </div>
 
@@ -223,6 +217,7 @@ Profile
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                            <div class="invalid-feedback">Enter your new password!</div>
                                         </div>
                                     </div>
 
@@ -230,6 +225,7 @@ Profile
                                         <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                            <div class="invalid-feedback">Re-enter your new password!</div>
                                         </div>
                                     </div>
 
@@ -251,3 +247,102 @@ Profile
 
 </main><!-- End #main -->
 @endsection
+
+@push('scripts')
+<script>
+    $('#addSocialLinkBtn').on('click', function() {
+        $('#socialLinksContainer').append(`
+            <div class="input-group mb-2">
+                <input name="socialPlatform[]" type="text" class="form-control" placeholder="Platform Name">
+                <input name="socialLink[]" type="text" class="form-control" placeholder="https://socialplatform.com/username">
+                <button class="btn btn-danger remove-social-btn" type="button"><i class="bi bi-x-lg"></i></button>
+            </div>
+        `);
+        checkSocialLinks();
+    });
+
+    // Remove social link input group
+    $(document).on('click', '.remove-social-btn', function() {
+        $(this).closest('.input-group').remove();
+        checkSocialLinks();
+    });
+
+    // Check number of social links and adjust button visibility
+    function checkSocialLinks() {
+        let totalLinks = $('#socialLinksContainer .input-group').length;
+
+        // Show "Remove" button only for subsequent links
+        $('#socialLinksContainer .input-group').each(function(index) {
+            if (index === 0) {
+                $(this).find('.remove-social-btn').remove(); // Ensure no remove button on first input group
+                if ($('#addSocialLinkBtn').length === 0) {
+                    $(this).append('<button class="btn btn-success" id="addSocialLinkBtn" type="button"><i class="bi bi-plus-lg"></i></button>');
+                }
+            } else {
+                $(this).find('#addSocialLinkBtn').remove();
+                if ($(this).find('.remove-social-btn').length === 0) {
+                    $(this).append('<button class="btn btn-danger remove-social-btn" type="button"><i class="bi bi-x-lg"></i></button>');
+                }
+            }
+        });
+    }
+
+    // Initial check
+    checkSocialLinks();
+
+
+    $(document).ready(function() {
+        $('#changePasswordForm').on('submit', async function(e) {
+            e.preventDefault();
+
+            $('.form-control').removeClass('is-invalid');
+            // $('.invalid-feedback').text('');
+
+            const currentPassword = $('#currentPassword').val().trim();
+            const newPassword = $('#newPassword').val().trim();
+            const renewPassword = $('#renewPassword').val().trim();
+
+            let isValid = true;
+
+            if (!currentPassword) {
+                isValid = false;
+                $('#currentPassword').addClass('is-invalid');
+            }
+
+            if (!newPassword) {
+                isValid = false;
+                $('#newPassword').addClass('is-invalid');
+            }
+
+            if (newPassword !== renewPassword) {
+                isValid = false;
+                $('#renewPassword').addClass('is-invalid');
+                $('#renewPassword').siblings('.invalid-feedback').text('New passwords do not match.');
+            }
+
+            if (!renewPassword) {
+                isValid = false;
+                $('#renewPassword').addClass('is-invalid');
+            }
+
+            if (newPassword.length < 5) {
+                isValid = false;
+                $('#newPassword').addClass('is-invalid');
+                $('#newPassword').siblings('.invalid-feedback').text('New password must be at least 5 characters long.');
+            }
+            if (isValid) {
+                const formData = new FormData()
+                formData.append('currentPassword', currentPassword)
+                formData.append('newPassword', newPassword)
+                const response = await ajaxRequest('changepassword', formData)
+                if (response.status) {
+                    $('#changePasswordForm')[0].reset();
+                } else {
+                    $('#currentPassword').addClass('is-invalid');
+                    $('#currentPassword').siblings('.invalid-feedback').html(response.message);
+                }
+            }
+        });
+    })
+</script>
+@endpush

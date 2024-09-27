@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,28 +22,32 @@ use Illuminate\Support\Facades\Route;
 //     // return view('welcome');
 // });
 
-Route::get('/',[AuthController::class,'loginView'])->name('loginView');
-
-Route::get('/register',[AuthController::class,'registerView'])->name('registerView');
-Route::post('/saveuser',[AuthController::class,'saveUser'])->name('saveuser');
-
-Route::get('/dashboard',[DashboardController::class,'dashboardView'])->name('dashboardView');
-
-Route::get('/userprofile',[UserController::class,'profileView'])->name('profileView');
 Route::get('/settings',[UserController::class,'settingView'])->name('settingView');
 
+// ===== Public routes =====
+
+// ===== LOGIN =====
+// Route::get('/',[AuthController::class,'loginView'])->name('loginView');
+Route::middleware('guest')->group(function(){
+    Route::get('/',[AuthController::class,'loginView'])->name('loginView');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    
+    // ===== REGISTER =====
+    Route::get('/register',[AuthController::class,'registerView'])->name('registerView');
+    Route::post('/saveuser',[AuthController::class,'saveUser'])->name('saveuser');
+});
 
 
-
-// Public routes
-Route::post('login', [AuthController::class, 'login']);
-
-// Protected routes
-Route::middleware('auth:api')->group(function () {
+// ===== Protected routes =====
+Route::middleware('auth')->group(function () {
     Route::get('user', function (Request $request) {
         return $request->user();
     });
 
+    Route::get('/dashboard',[DashboardController::class,'dashboardView'])->name('dashboardView');
+    
+    Route::get('/userprofile',[UserController::class,'profileView'])->name('profileView');
+    Route::post('/changepassword',[UserController::class,'changePassword'])->name('changepassword');
     // Routes restricted to client admin
     Route::middleware('role:client admin')->group(function () {
         // Client admin routes
@@ -57,4 +62,7 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('role:creators')->group(function () {
         // Creator routes
     });
+
+    Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+
 });

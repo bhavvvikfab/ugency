@@ -21,31 +21,17 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            if (!$user) return ResponseHelper::error('User not found.');
+
             $token = $user->createToken('Access Token')->accessToken;
-            
-            return response()->json([
-                'user' => $user,
-                'token' => $token
-            ], 200);
+            if (!$token) return ResponseHelper::error('Unable to generate token.');
+
+            $data = ['user' => $user, 'token' => $token,];
+            session($data);
+            return ResponseHelper::success('Login successfully', 200, $data);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
-    }
-
-    public function register1(){
-        $data = [
-            'username' => 'test',
-            'phone' => 1,
-            'email' => 1,
-            'password' => Hash::make('test')
-        ];
-        
-        if($user = User::create($data)){
-            $user->assignRole('client admin');
-            $roles = $user->getRoleNames(); 
-            return response()->json(['user' => $user,'roles'=>$roles], 200);
-        }
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return ResponseHelper::error('Unauthorized', 401);
     }
 
     public function registerView()
@@ -57,7 +43,7 @@ class AuthController extends Controller
     {
         // Validate the input data
         $validatedData = $request->validate([
-            'role'=> 'required|string',
+            'role' => 'required|string',
             'username' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $request->id,
             'phone' => 'required|string|max:15,',
@@ -88,10 +74,22 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
             $user->assignRole($request->role);
-            $user->role = $user->getRoleNames(); 
+            $user->role = $user->getRoleNames();
+
             if (!$user) return ResponseHelper::error('Failed to create user.');
-            return ResponseHelper::success('User created successfully', 201,$user);
-            // return response()->json(['status' => true, 'message' => 'User created successfully', 'user' => $user]);
+            return ResponseHelper::success('User created successfully', 201, $user);
         }
+    }
+
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('loginView')->with('status', 'You have been logged out successfully.');
     }
 }

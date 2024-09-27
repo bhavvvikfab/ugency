@@ -8,7 +8,7 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     @include('layout.headlinks')
-    _token: '{{ csrf_token() }}' // CSRF token for security
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     <!-- ======= Sidebar ======= -->
     @include('layout.sidebar')
     <!-- End Sidebar-->
-    
+
     <!-- ======= Main ======= -->
     @yield('body')
     <!-- End Main -->
