@@ -25,13 +25,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Public routes
 Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'register1']);
+Route::post('register', [AuthController::class, 'saveUser']);
 
 // Protected routes
 Route::middleware('auth:api')->group(function () {
     Route::get('user', function (Request $request) {
         return $request->user();
     });
+    Route::post('/changepassword',[UserController::class,'changePassword']);
 
     // Routes restricted to client admin
     Route::middleware('role:client admin')->group(function () {
