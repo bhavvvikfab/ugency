@@ -9,9 +9,9 @@ class Client extends Model
 {
     use HasFactory;
 
-    // protected $table = 'clients';
+    protected $table = 'clients';
 
-    // protected $primaryKey = 'client_id';
+    protected $primaryKey = 'client_id';
 
     // Mass assignable fields
     protected $fillable = [
