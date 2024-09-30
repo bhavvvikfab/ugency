@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
+    protected $table = 'country';
     protected $fillable = [
         'region_id',
         'country_name',
@@ -20,5 +21,10 @@ class Country extends Model
     public function region()
     {
         return $this->belongsTo(Region::class, 'region_id', 'id');
+    }
+
+    public static function getAllContries()
+    {
+        return self::all();
     }
 }

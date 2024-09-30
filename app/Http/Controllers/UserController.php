@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
+use App\Models\City;
+use App\Models\Client;
+use App\Models\Country;
+use App\Models\Language;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function updateProfile(Request $request){
+
+    }
+
     public function changePassword(Request $request)
-    {  
+    {
         $validate = $request->validate([
             'currentPassword' => 'required',
             'newPassword' => 'required|min:6'
@@ -24,7 +33,37 @@ class UserController extends Controller
     }
     public function profileView()
     {
-        return view('profile.profile');
+        $user = auth()->user();
+        $roleId = $roleId = $user->roles->pluck('id')->first();
+
+
+        $userData = null;
+        switch ($roleId) {
+            case 1:
+                // $userData = User::all();
+                break;
+            case 2:
+                // $userData = Post::all();
+                break;
+            case 3:
+                // $userData = Post::all();
+                break;
+            case 4:
+                $userData = Client::where('user_id', $user->id)->first() ?? [];
+                break;
+            default:
+                $data = collect();
+                break;
+        }
+
+        // dd($userData);
+        // if ($userData->isEmpty())
+
+        $countries = Country::getAllContries();
+        $cities = City::getAllCities();
+        $languages = Language::getAllLanguages();
+        return view('profile.profile', compact('user', 'userData', 'roleId', 'countries', 'cities', 'languages'));
+        // return view('profile.profile',);
     }
     public function settingView()
     {

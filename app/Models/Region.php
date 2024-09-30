@@ -15,4 +15,9 @@ class Region extends Model
         'region_code',
     ];
     public $timestamps = true;
+
+    public static function getAllRegions()
+    {
+        return self::all();
+    }
 }

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Language extends Model
 {
     use HasFactory;
+    protected $table = 'language';
+
     protected $fillable = [
         'language_name',
         'language_code',
@@ -15,4 +17,8 @@ class Language extends Model
 
     // Enable timestamps
     public $timestamps = true;
+
+    public static function getAllLanguages(){
+        return self::all();
+     }
 }

@@ -121,7 +121,7 @@ Profile
                                     <div class="row mb-3">
                                         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="firstName" type="text" class="form-control" id="firstName" value="Kevin">
+                                            <input name="firstName" type="text" class="form-control" id="firstName" value="">
                                             <div class="invalid-feedback" id="firstNameErr">Enter your first name!</div>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@ Profile
                                     <div class="row mb-3">
                                         <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="lastName" type="text" class="form-control" id="lastName" value="Anderson">
+                                            <input name="lastName" type="text" class="form-control" id="lastName" value="">
                                             <div class="invalid-feedback" id="lastNameErr">Enter your last name!</div>
                                         </div>
                                     </div>
@@ -139,8 +139,14 @@ Profile
                                     <div class="row mb-3">
                                         <label for="country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="country" type="text" class="form-control" id="country" value="USA">
-                                            <div class="invalid-feedback" id="countryErr">Enter your country!</div>
+                                            <select name="country" class="form-select" id="country">
+                                                <option value="">--Select a country--</option>
+                                                <!-- disabled selected -->
+                                                @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback" id="countryErr">Select your country!</div>
                                         </div>
                                     </div>
 
@@ -148,16 +154,22 @@ Profile
                                     <div class="row mb-3">
                                         <label for="city" class="col-md-4 col-lg-3 col-form-label">City</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="city" type="text" class="form-control" id="city" value="New York">
-                                            <div class="invalid-feedback" id="cityErr">Enter your city!</div>
+                                            <select name="city" class="form-control" id="city">
+                                                <option value="">--Select a city--</option>
+                                                @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback" id="cityErr">Select your city!</div>
                                         </div>
                                     </div>
+
 
                                     <!-- Phone -->
                                     <div class="row mb-3">
                                         <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="phone" value="(436) 486-3538 x29071">
+                                            <input name="phone" type="text" class="form-control" id="phone" value="">
                                             <div class="invalid-feedback" id="phoneErr">Enter your phone number!</div>
                                         </div>
                                     </div>
@@ -166,7 +178,7 @@ Profile
                                     <div class="row mb-3">
                                         <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="email" value="k.anderson@example.com">
+                                            <input name="email" type="email" class="form-control" id="email" value="">
                                             <div class="invalid-feedback" id="emailErr">Enter a valid email address!</div>
                                         </div>
                                     </div>
@@ -175,8 +187,13 @@ Profile
                                     <div class="row mb-3">
                                         <label for="language" class="col-md-4 col-lg-3 col-form-label">Language</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="language" type="text" class="form-control" id="language" value="English">
-                                            <div class="invalid-feedback" id="languageErr">Enter your language!</div>
+                                            <select name="language" class="form-select" id="language" required>
+                                                <option value="">--Select a language--</option>
+                                                @foreach ($languages as $language)
+                                                <option value="{{ $language->id }}">{{ $language->language_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback" id="languageErr">Select your language!</div>
                                         </div>
                                     </div>
 
@@ -185,15 +202,14 @@ Profile
                                         <div class="col-md-8 col-lg-9">
                                             <div id="socialLinksContainer">
                                                 <div class="input-group mb-2">
-                                                    <input name="socialPlatform[]" type="text" class="form-control" placeholder="Platform Name" value="Twitter">
-                                                    <input name="socialLink[]" type="text" class="form-control" placeholder="https://twitter.com/username" value="https://twitter.com/#">
-                                                    <button class="btn btn-success" id="addSocialLinkBtn" type="button"><i class="bi bi-plus-lg"></i></button>
+                                                    <input name="socialPlatform[]" type="text" class="form-control" placeholder="Social Media">
+                                                    <input name="socialLink[]" type="text" class="form-control" placeholder="https://socialplatform.com/username">
+                                                    <button class="btn btn-primary" id="addSocialLinkBtn" type="button"><i class="bi bi-plus-lg"></i></button>
                                                 </div>
+                                                <div class="invalid-feedback" id="socialLinksErr">Enter social media link!</div>
                                             </div>
-                                            <div class="invalid-feedback" id="socialLinksErr">Enter at least one social link!</div>
                                         </div>
                                     </div>
-
 
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -250,48 +266,68 @@ Profile
 
 @push('scripts')
 <script>
-    $('#addSocialLinkBtn').on('click', function() {
-        $('#socialLinksContainer').append(`
-            <div class="input-group mb-2">
-                <input name="socialPlatform[]" type="text" class="form-control" placeholder="Platform Name">
-                <input name="socialLink[]" type="text" class="form-control" placeholder="https://socialplatform.com/username">
-                <button class="btn btn-danger remove-social-btn" type="button"><i class="bi bi-x-lg"></i></button>
-            </div>
-        `);
-        checkSocialLinks();
-    });
+    $(document).ready(function() {
 
-    // Remove social link input group
-    $(document).on('click', '.remove-social-btn', function() {
-        $(this).closest('.input-group').remove();
-        checkSocialLinks();
-    });
+        $('#editProfileForm').on('submit',async function(e) {
+            e.preventDefault(); // Prevent default form submission
 
-    // Check number of social links and adjust button visibility
-    function checkSocialLinks() {
-        let totalLinks = $('#socialLinksContainer .input-group').length;
+            // Flag to track if the form is valid
+            let isValid = true;
 
-        // Show "Remove" button only for subsequent links
-        $('#socialLinksContainer .input-group').each(function(index) {
-            if (index === 0) {
-                $(this).find('.remove-social-btn').remove(); // Ensure no remove button on first input group
-                if ($('#addSocialLinkBtn').length === 0) {
-                    $(this).append('<button class="btn btn-success" id="addSocialLinkBtn" type="button"><i class="bi bi-plus-lg"></i></button>');
+            // Loop through all form controls with the 'form-control' class
+            $('#editProfileForm .form-control, .form-select').each(function() {
+                const input = $(this);
+                const value = input.val().trim(); // Get trimmed value
+
+                // Check if the value is empty
+                if (value === '') {
+                    input.addClass('is-invalid'); // Add invalid class
+                    isValid = false; // Set isValid to false
+                    // Show respective error message
+                    input.siblings('.invalid-feedback').show();
+                } else {
+                    input.removeClass('is-invalid'); // Remove invalid class
+                    input.siblings('.invalid-feedback').hide(); // Hide error message
                 }
-            } else {
-                $(this).find('#addSocialLinkBtn').remove();
-                if ($(this).find('.remove-social-btn').length === 0) {
-                    $(this).append('<button class="btn btn-danger remove-social-btn" type="button"><i class="bi bi-x-lg"></i></button>');
+                if (!isValid) console.log('isValid', isValid, input)
+
+            });
+
+            // Validate each social link
+            $('#socialLinksContainer .input-group').each(function() {
+                const platformInput = $(this).find('input[name="socialPlatform[]"]');
+                const linkInput = $(this).find('input[name="socialLink[]"]');
+                const feedback = $(this).siblings('.invalid-feedback');
+
+                // Reset validation state
+                platformInput.removeClass('is-invalid');
+                linkInput.removeClass('is-invalid');
+                feedback.hide(); // Hide previous feedback
+
+                // Check for empty platform or link
+                if (platformInput.val().trim() === '' || linkInput.val().trim() === '') {
+                    platformInput.addClass('is-invalid'); // Add invalid class
+                    linkInput.addClass('is-invalid'); // Add invalid class
+                    feedback.show(); // Show error message
+                    isValid = false; // Set overall form validity to false
+                }
+            });
+
+            if (isValid) {
+                const formData = $(this).serialize();
+                try {
+                    const response = await ajaxRequest('', formData) // add route name
+                    if (response.status) {
+                        $('#editProfileForm')[0].reset();
+                        window.location.href = '/'
+                    } else console.log('Profile', response.message);
+                } catch (error) {
+                    console.log('Error while updating Profile:', error);
                 }
             }
         });
-    }
-
-    // Initial check
-    checkSocialLinks();
 
 
-    $(document).ready(function() {
         $('#changePasswordForm').on('submit', async function(e) {
             e.preventDefault();
 
@@ -343,6 +379,49 @@ Profile
                 }
             }
         });
+
+
+        $('#addSocialLinkBtn').on('click', function() {
+            $('#socialLinksContainer').append(`
+            <div class="input-group mb-2">
+                <input name="socialPlatform[]" type="text" class="form-control" placeholder="Social Media">
+                <input name="socialLink[]" type="text" class="form-control" placeholder="https://socialplatform.com/username">
+                <button class="btn btn-danger remove-social-btn" type="button"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="invalid-feedback" style="display: none;">Enter social media link!</div>
+        `);
+            checkSocialLinks();
+        });
+
+        // Remove social link input group
+        $(document).on('click', '.remove-social-btn', function() {
+            const inputGroup = $(this).closest('.input-group');
+            inputGroup.next('.invalid-feedback').remove(); // Remove the corresponding error message
+            inputGroup.remove(); // Remove the input group
+            checkSocialLinks();
+        });
+
+        // Check number of social links and adjust button visibility
+        function checkSocialLinks() {
+            let totalLinks = $('#socialLinksContainer .input-group').length;
+
+            $('#socialLinksContainer .input-group').each(function(index) {
+                if (index === 0) {
+                    $(this).find('.remove-social-btn').remove(); // Ensure no remove button on first input group
+                    if ($('#addSocialLinkBtn').length === 0) {
+                        $(this).append('<button class="btn btn-success" id="addSocialLinkBtn" type="button"><i class="bi bi-plus-lg"></i></button>');
+                    }
+                } else {
+                    $(this).find('#addSocialLinkBtn').remove();
+                    if ($(this).find('.remove-social-btn').length === 0) {
+                        $(this).append('<button class="btn btn-danger remove-social-btn" type="button"><i class="bi bi-x-lg"></i></button>');
+                    }
+                }
+            });
+        }
+        // Initial check
+        checkSocialLinks();
+
     })
 </script>
 @endpush
