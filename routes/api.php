@@ -33,6 +33,8 @@ Route::middleware('auth:api')->group(function () {
         return $request->user();
     });
     Route::post('/changepassword',[UserController::class,'changePassword']);
+    Route::post('/addEditProfile',[UserController::class,'addEditProfile']);
+    
 
     // Routes restricted to client admin
     Route::middleware('role:client admin')->group(function () {

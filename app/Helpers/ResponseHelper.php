@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\Model;
 
 class ResponseHelper
 {
@@ -37,5 +38,28 @@ class ResponseHelper
             'message' => $message,
             'code' => $code,
         ], $code);
+    }
+
+    /**
+     * Add or Edit a record in the database.
+     *
+     * @param Model $model
+     * @param array $data
+     * @param int|null $id
+     * @return Model
+     */
+    public static function addOrEdit(Model $model, array $data, $id = null)
+    {
+        if ($id) {
+            // Find the record by ID and update
+            $record = $model->find($id);
+            if ($record) {
+                $record->update($data);
+                return $record;
+            }
+        }
+
+        // Create a new record if ID is not provided or record not found
+        return $model->create($data);
     }
 }

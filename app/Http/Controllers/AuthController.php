@@ -44,7 +44,8 @@ class AuthController extends Controller
         // Validate the input data
         $validatedData = $request->validate([
             'role' => 'required|string',
-            'username' => 'required|string|max:255',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $request->id,
             'phone' => 'required|string|max:15,',
             'password' => $request->id ? 'nullable|min:6' : 'required|min:6',
@@ -59,7 +60,8 @@ class AuthController extends Controller
 
             // Update the user's data
             $user->update([
-                'username' => $request->username,
+                'first_name' => $request->firstName,
+                'last_name' => $request->lastName,
                 'email' => $request->email,
                 'password' => $request->password ? Hash::make($request->password) : $user->password, // Only update password if provided
             ]);
@@ -68,7 +70,8 @@ class AuthController extends Controller
         } else {
             // Create a new user
             $user = User::create([
-                'username' => $request->username,
+                'first_name' => $request->firstName,
+                'last_name' => $request->lastName,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),

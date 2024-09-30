@@ -50,10 +50,11 @@ class PermissionsSeeder extends Seeder
         $clients = Role::firstOrCreate(['name' => 'clients','guard_name'=>'web']);
         $clientAdmin = Role::firstOrCreate(['name' => 'client admin','guard_name'=>'web']);
         $clientEmployee = Role::firstOrCreate(['name' => 'client employee','guard_name'=>'web']);
-        $creators = Role::firstOrCreate(['name' => 'creators','guard_name'=>'api']);
+        $creators = Role::firstOrCreate(['name' => 'creators','guard_name'=>'web']);
 
         $clients->givePermissionTo(Permission::all());
         $clientAdmin->givePermissionTo(Permission::all());
+        $creators->givePermissionTo(Permission::all());
 
         // Assign limited permissions to Client Employee
         $clientEmployee->givePermissionTo([

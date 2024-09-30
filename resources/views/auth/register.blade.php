@@ -40,11 +40,20 @@
                   </div>
                   <form class="row g-3 " id="userForm" method="post" novalidate>
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="yourFirstName" class="form-label">First Name</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-fill"></i></span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Enter your username.</div>
+                        <input type="text" name="firstName" class="form-control" id="yourFirstName" required>
+                        <div class="invalid-feedback">Enter your First Name.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourLastName" class="form-label">Last Name</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-fill"></i></span>
+                        <input type="text" name="lastName" class="form-control" id="yourLastName" required>
+                        <div class="invalid-feedback">Enter your Last Name.</div>
                       </div>
                     </div>
 
@@ -107,7 +116,8 @@
         $('.invalid-feedback').hide();
         $('.form-control').removeClass('is-invalid');
 
-        let username = $.trim($('#yourUsername').val());
+        let firstName = $.trim($('#yourFirstName').val());
+        let lastName = $.trim($('#yourLastName').val());
         let phone = $.trim($('#phone').val());
         let email = $.trim($('#yourEmail').val());
         let password = $('#yourPassword').val();
@@ -115,9 +125,15 @@
         let hasError = false; // To track if there's any validation error
 
 
-        if (username === '') {
-          $('#yourUsername').addClass('is-invalid');
-          $('#yourUsername').siblings('.invalid-feedback').text('Enter your username.').show();
+        if (firstName === '') {
+          $('#yourFirstName').addClass('is-invalid');
+          $('#yourFirstName').siblings('.invalid-feedback').text('Enter your first name.').show();
+          hasError = true;
+        }
+
+        if (lastName === '') {
+          $('#yourLastName').addClass('is-invalid');
+          $('#yourLastName').siblings('.invalid-feedback').text('Enter your last name.').show();
           hasError = true;
         }
 
@@ -162,7 +178,8 @@
         if (hasError) return;
 
         const formData = new FormData();
-        formData.append('username', username);
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
         formData.append('email', email);
         formData.append('phone', phone);
         formData.append('password', password);
