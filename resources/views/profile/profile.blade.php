@@ -268,14 +268,14 @@ Profile
 <script>
     $(document).ready(function() {
 
-        $('#editProfileForm').on('submit', function(e) {
+        $('#editProfileForm').on('submit',async function(e) {
             e.preventDefault(); // Prevent default form submission
 
             // Flag to track if the form is valid
             let isValid = true;
 
             // Loop through all form controls with the 'form-control' class
-            $('.form-control, .form-select').each(function() {
+            $('#editProfileForm .form-control, .form-select').each(function() {
                 const input = $(this);
                 const value = input.val().trim(); // Get trimmed value
 
@@ -289,6 +289,8 @@ Profile
                     input.removeClass('is-invalid'); // Remove invalid class
                     input.siblings('.invalid-feedback').hide(); // Hide error message
                 }
+                if (!isValid) console.log('isValid', isValid, input)
+
             });
 
             // Validate each social link
@@ -313,8 +315,15 @@ Profile
 
             if (isValid) {
                 const formData = $(this).serialize();
-                // console.log('dfddf',formData);
-
+                try {
+                    const response = await ajaxRequest('', formData) // add route name
+                    if (response.status) {
+                        $('#editProfileForm')[0].reset();
+                        window.location.href = '/'
+                    } else console.log('Profile', response.message);
+                } catch (error) {
+                    console.log('Error while updating Profile:', error);
+                }
             }
         });
 

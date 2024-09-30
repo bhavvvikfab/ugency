@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function updateProfile(Request $request){
+
+    }
+
     public function changePassword(Request $request)
     {
         $validate = $request->validate([
