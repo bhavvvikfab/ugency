@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    public function updateProfile(Request $request){
-
+    public function addEditProfile(Request $request){
+        $user = Auth::user();
+        if(!$user){
+            
+        }
+        // $record = ResponseHelper::addOrEdit(, $data, $id ?? null);
     }
 
     public function changePassword(Request $request)
@@ -31,10 +35,11 @@ class UserController extends Controller
         if (!$user->save()) return ResponseHelper::error('Failed to change password');
         return ResponseHelper::success('Password changed successfully.');
     }
+
     public function profileView()
     {
         $user = auth()->user();
-        $roleId = $roleId = $user->roles->pluck('id')->first();
+        $roleId = $user->roles->pluck('id')->first();
 
 
         $userData = null;
